@@ -1,11 +1,18 @@
 package cs.ku.sa_project.entities;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
+@Entity
 public class Invoice {
-    private String invoice_id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long invoice_id;
     private String receipt_no;
     private String date;
     private String due_date;

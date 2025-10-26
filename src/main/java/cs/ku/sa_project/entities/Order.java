@@ -1,13 +1,16 @@
 package cs.ku.sa_project.entities;
+import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
-
+@Data
+@Entity
+@Table(name = "orders")
 public class Order {
-    private String order_id;
-    private String order_status_history;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long order_id;
     private String status;
     private String confirmation_date;
     private String cancel_reason;

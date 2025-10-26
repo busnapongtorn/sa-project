@@ -9,7 +9,7 @@ public class CustomerController {
 
     public void validate(){}
 
-    public User createNewUser(){return new User("");}
+    public User createNewUser(){return new User();}
 
     public Customer getCustomer(String id){return new Customer();}
 
