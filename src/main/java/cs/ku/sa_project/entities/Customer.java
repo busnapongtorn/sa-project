@@ -13,14 +13,14 @@ import lombok.Setter;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customer_id;
+    private Long customerId;
     private String username;
     private String password;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private String email;
-    private String phone_number;
-    private String bankacc_number;
+    private String phoneNumber;
+    private String backaccNumber;
 
     public void sendTrackingDetail(String tracking_no){}
     public void display(){}

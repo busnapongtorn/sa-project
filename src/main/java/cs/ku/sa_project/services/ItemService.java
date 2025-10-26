@@ -30,7 +30,7 @@ public class ItemService {
     }
 
     public List<Item> getItems() {
-        return itemRepository.findAll(); // Use built-in JpaRepository method
+        return itemRepository.findAllByOrderByItemIdAsc(); // Use built-in JpaRepository method
     }
 
     public Item updateItem(Long itemId, Item updatedItemData) {
@@ -40,10 +40,10 @@ public class ItemService {
 
         // Update fields from the incoming data
         item.setItemName(updatedItemData.getItemName());
-        item.setCurrent_price(updatedItemData.getCurrent_price());
+        item.setCurrentPrice(updatedItemData.getCurrentPrice());
         item.setSize(updatedItemData.getSize());
-        item.setStock_quantity(updatedItemData.getStock_quantity());
-        item.setReserved_quantity(updatedItemData.getReserved_quantity());
+        item.setStockQuantity(updatedItemData.getStockQuantity());
+        item.setReservedQuantity(updatedItemData.getReservedQuantity());
         item.setStatus(updatedItemData.getStatus());
         // Save the updated item back to the database
         return itemRepository.save(item);

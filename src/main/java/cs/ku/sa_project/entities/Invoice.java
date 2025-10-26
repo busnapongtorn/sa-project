@@ -12,11 +12,11 @@ import lombok.Setter;
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long invoice_id;
-    private String receipt_no;
+    private Long invoiceId;
+    private String receiptNo;
     private String date;
-    private String due_date;
-    private String payment_method;
+    private String dueDate;
+    private String paymentMethod;
     private String status;
-    private double total_amount;
+    private double totalAmount;
 }

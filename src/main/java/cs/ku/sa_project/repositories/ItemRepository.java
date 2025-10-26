@@ -16,4 +16,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
      * "IgnoreCase" -> "...and make it case-insensitive"
      */
     List<Item> findByItemNameContainingIgnoreCase(String item_name);
+    List<Item> findAllByOrderByItemIdAsc();
 }

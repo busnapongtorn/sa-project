@@ -13,12 +13,12 @@ import lombok.Setter;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long item_id;
+    private Long itemId;
     private String size;
-    private int stock_quantity;
-    private int reserved_quantity;
+    private int stockQuantity;
+    private int reservedQuantity;
     private String itemName;
-    private double current_price;
+    private double currentPrice;
     private String status;
 
     public void deductItem(int quantity){

@@ -10,14 +10,14 @@ import lombok.Setter;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long order_id;
+    private Long orderId;
     private String status;
-    private String confirmation_date;
-    private String cancel_reason;
+    private String confirmationDate;
+    private String cancelReason;
     private String address;
-    private String order_date;
-    private String tracking_no;
-    private String payment_status;
+    private String orderDate;
+    private String trackingNo;
+    private String paymentStatus;
 
     public void setTrackingNo(String tracking_no){
 

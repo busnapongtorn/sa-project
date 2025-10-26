@@ -18,11 +18,11 @@ public class OrderItems {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderItemId;
-    private String item_id;
-    private String order_id;
+    private String itemId;
+    private String orderId;
     private int quantity;
-    private double unit_price;
-    private double total_price;
+    private double unitPrice;
+    private double totalPrice;
 
     public OrderItems(Order order, CartList cartList){
 
