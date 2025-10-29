@@ -19,7 +19,7 @@ public class ItemService {
 
     public List<Item> searchItems(String query) {
         if (query == null || query.trim().isEmpty()) {
-            return itemRepository.findAll();
+            return itemRepository.findAllByOrderByItemIdAsc();
         } else {
            return itemRepository.findByItemNameContainingIgnoreCase(query);
         }

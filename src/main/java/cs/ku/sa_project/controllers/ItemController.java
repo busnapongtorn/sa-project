@@ -42,14 +42,13 @@ public class ItemController {
             Item savedItem = itemService.updateItem(itemId, updatedItemData);
             return ResponseEntity.ok(savedItem); // Return 200 OK + updated item
         } catch (RuntimeException e) {
-            // Basic error handling - could be more specific
             System.err.println("Error updating item: " + e.getMessage());
             // Return 404 Not Found if the service threw an error (e.g., item not found)
             return ResponseEntity.notFound().build();
         }
     }
 
-    public void displayPopup(Item item){}
+    // public void displayPopup(Item item){}
     public void OpenCustomerCart(CartList cartList){}
     public void deleteItem(CartList cartList, Item item){}
     public void confirmCart(CartList cartList){}
