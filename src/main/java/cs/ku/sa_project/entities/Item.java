@@ -1,12 +1,11 @@
 package cs.ku.sa_project.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -20,6 +19,9 @@ public class Item {
     private String itemName;
     private double currentPrice;
     private String status;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
+    private List<OrderItems> orderItems;
 
     public void deductItem(int quantity){
 

@@ -36,4 +36,24 @@ public class OrderService {
         // Save the updated order back to the database
         return orderRepository.save(order);
     }
+
+    public Order paymentCompleted(Long orderId) {
+        // Find the existing item or throw an error if not found
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));
+        // Update status to "Awaiting Payment"
+        order.setStatus("Payment Completed");
+        // Save the updated order back to the database
+        return orderRepository.save(order);
+    }
+
+    public Order packingCompleted(Long orderId) {
+        // Find the existing item or throw an error if not found
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));
+        // Update status to "Awaiting Payment"
+        order.setStatus("Packing Completed");
+        // Save the updated order back to the database
+        return orderRepository.save(order);
+    }
 }

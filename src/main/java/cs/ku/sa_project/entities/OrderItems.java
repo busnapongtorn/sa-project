@@ -14,13 +14,20 @@ import lombok.Setter;
 @IdClass(OrderItemId.class)
 public class OrderItems {
     @Id
+    @Column(name = "item_id")
     private Long itemId;
     @Id
+    @Column(name = "order_id")
     private Long orderId;
+
     private int quantity;
     private double totalPrice;
 
-    public OrderItems(Order order, CartList cartList){
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id", insertable = false, updatable = false)
+    private Item item;
 
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", insertable = false, updatable = false)
+    private Order order;
 }
