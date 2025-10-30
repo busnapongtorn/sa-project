@@ -31,33 +31,23 @@ public class OrderService {
         return orderSaved;
     }
 
-    public Order setAwaitPayment(Long orderId) {
+    public Order updateOrderStatus(Long orderId, String status) {
         // Find the existing item or throw an error if not found
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));
-        // Update status to "Awaiting Payment"
-        order.setStatus("Awaiting Payment");
-        // Save the updated order back to the database
+        // Update fields from the incoming data
+        order.setStatus(status);
+        // Save the updated item back to the database
         return orderRepository.save(order);
     }
 
-    public Order paymentCompleted(Long orderId) {
+    public Order updateOrderTrackingNo(Long orderId, String trackingNo) {
         // Find the existing item or throw an error if not found
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));
-        // Update status to "Awaiting Payment"
-        order.setStatus("Payment Completed");
-        // Save the updated order back to the database
-        return orderRepository.save(order);
-    }
-
-    public Order packingCompleted(Long orderId) {
-        // Find the existing item or throw an error if not found
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));
-        // Update status to "Awaiting Payment"
-        order.setStatus("Packing Completed");
-        // Save the updated order back to the database
+        // Update fields from the incoming data
+        order.setTrackingNo(trackingNo);
+        // Save the updated item back to the database
         return orderRepository.save(order);
     }
 }

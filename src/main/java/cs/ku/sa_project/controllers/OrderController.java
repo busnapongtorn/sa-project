@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -52,17 +53,32 @@ public class OrderController {
         return orderService.createOrder(order);
     }
 
-    @PutMapping("/{orderId}") // Handles PUT requests like /api/items/123
-    public ResponseEntity<Order> setAwaitPayment(
-            @PathVariable Long orderId       // Gets the ID (123) from the URL path
-    ) {
+    @PatchMapping("/{orderId}/status")
+    public ResponseEntity<Order> updateOrderStatus(
+            @PathVariable Long orderId,
+            @RequestBody Map<String, String> body) {
+
+        String newStatus = body.get("status");
         try {
-            Order savedOrder = orderService.setAwaitPayment(orderId);
-            return ResponseEntity.ok(savedOrder); // Return 200 OK + updated order
-        } catch (RuntimeException e) {
-            System.err.println("Error updating order: " + e.getMessage());
-            // Return 404 Not Found if the service threw an error (e.g., item not found)
+            Order updatedOrder = orderService.updateOrderStatus(orderId, newStatus);
+            return ResponseEntity.ok(updatedOrder);
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PatchMapping("/{orderId}/trackingNo")
+    public ResponseEntity<Order> updateOrderTrackingNo(
+            @PathVariable Long orderId,
+            @RequestBody Map<String, String> body) {
+
+        String newStatus = body.get("trackingNo");
+        try {
+            Order updatedOrder = orderService.updateOrderTrackingNo(orderId, newStatus);
+            return ResponseEntity.ok(updatedOrder);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
