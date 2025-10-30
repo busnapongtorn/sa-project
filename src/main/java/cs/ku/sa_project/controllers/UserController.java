@@ -23,21 +23,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        Optional<User> user = userRepository.findByUsername(loginRequest.getUsername());
-
-        // User not found
-        if (user.isEmpty()) {
-            return ResponseEntity.ok(new LoginResponse(false, null, null));
-        }
-
-        User userFound = user.get();
-        String role = userFound.getRole();
-
-        if(loginRequest.getPassword().equals(user.get().getPassword())) {
-            return ResponseEntity.ok(new LoginResponse(true, null, role));
-        }else{
-            return ResponseEntity.ok(new LoginResponse(false, null, role));
-        }
+        return ResponseEntity.ok(userService.login(loginRequest));
     }
 
     @PostMapping("/register")
