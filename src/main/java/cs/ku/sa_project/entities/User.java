@@ -1,9 +1,10 @@
 package cs.ku.sa_project.entities;
+
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name="users")
 public class User {
     @Id
@@ -11,4 +12,5 @@ public class User {
     private Long userId;
     private String username;
     private String password;
+    private String role;
 }
