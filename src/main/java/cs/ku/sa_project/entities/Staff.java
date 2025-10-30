@@ -19,7 +19,6 @@ public class Staff {
     private String username;
     private String password;
     private String role;
-    private String department;
     private String email;
 
     public void setPickingList(ArrayList<OrderItems> OrderItems){}

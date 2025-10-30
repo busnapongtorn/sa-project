@@ -24,8 +24,7 @@ public class Invoice {
     private String paymentMethod;
     private String status;
     private double totalAmount;
-    private long customerId; // FK
-    private long orderId;
+    private long orderId; //FK
 
     public Invoice(Order order){
         String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
@@ -35,7 +34,6 @@ public class Invoice {
         this.paymentMethod = "";
         this.status = "Unpaid";
         this.totalAmount = 0;
-        this.customerId = 0;
         this.orderId = order.getOrderId();
     }
 }
