@@ -2,12 +2,18 @@ package cs.ku.sa_project.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.time.LocalDate;
+
 
 @Data
 @Entity
+@NoArgsConstructor
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +25,17 @@ public class Invoice {
     private String status;
     private double totalAmount;
     private long customerId; // FK
+    private long orderId;
+
+    public Invoice(Order order){
+        String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        this.receiptNo = "";
+        this.date = date;
+        this.dueDate = "";
+        this.paymentMethod = "";
+        this.status = "Unpaid";
+        this.totalAmount = 0;
+        this.customerId = 0;
+        this.orderId = order.getOrderId();
+    }
 }

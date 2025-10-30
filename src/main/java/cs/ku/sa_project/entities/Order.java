@@ -16,13 +16,10 @@ public class Order {
     private String status;
     private String address;
     private String orderDate;
+    @Column(nullable = true)
     private String trackingNo;
     private String paymentStatus;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
     private List<OrderItems> orderItems;
-
-    public void setTrackingNo(String tracking_no){
-
-    }
 }

@@ -1,6 +1,7 @@
 package cs.ku.sa_project.services;
 
 import cs.ku.sa_project.entities.Item;
+import cs.ku.sa_project.entities.OrderItems;
 import cs.ku.sa_project.repositories.ItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,16 @@ public class ItemService {
         item.setReservedQuantity(updatedItemData.getReservedQuantity());
         item.setStatus(updatedItemData.getStatus());
         // Save the updated item back to the database
+        return itemRepository.save(item);
+    }
+
+    public void reserveItems(Item item, OrderItems orderItem) {
+        item.setReservedQuantity(item.getReservedQuantity() + orderItem.getQuantity());
+        itemRepository.save(item);
+    }
+
+    public Item deductStock(Item item, OrderItems orderItem) {
+        item.setStockQuantity(item.getStockQuantity() - orderItem.getQuantity());
         return itemRepository.save(item);
     }
 }

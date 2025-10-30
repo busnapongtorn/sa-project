@@ -22,6 +22,8 @@ public class OrderItemService {
     private OrderRepository orderRepository;
     @Autowired
     private ItemRepository itemRepository;
+    @Autowired
+    private ItemService itemService;
 
     public List<OrderItems> getOrderItems() {
         return orderItemRepository.findAll(); // Use built-in JpaRepository method
@@ -42,6 +44,9 @@ public class OrderItemService {
             orderItem.setQuantity(orderItemDto.getQuantity());
             orderItem.setTotalPrice(orderItemDto.getTotalPrice());
             orderItems.add(orderItem);
+
+            // Reserve Items
+            itemService.reserveItems(item, orderItem);
         }
         return orderItemRepository.saveAll(orderItems);
     }

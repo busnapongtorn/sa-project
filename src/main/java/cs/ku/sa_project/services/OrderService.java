@@ -14,6 +14,8 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private InvoiceService invoiceService;
 
     public List<Order> getOrders() {
         return orderRepository.findAllByOrderByOrderIdAsc();
@@ -24,7 +26,9 @@ public class OrderService {
     }
 
     public Order createOrder(Order order) {
-        return orderRepository.save(order);
+        Order orderSaved = orderRepository.save(order);
+        invoiceService.generateInvoice(orderSaved);
+        return orderSaved;
     }
 
     public Order setAwaitPayment(Long orderId) {
