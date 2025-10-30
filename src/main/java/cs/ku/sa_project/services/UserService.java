@@ -3,7 +3,9 @@ package cs.ku.sa_project.services;
 import cs.ku.sa_project.dto.LoginRequest;
 import cs.ku.sa_project.dto.LoginResponse;
 import cs.ku.sa_project.dto.RegisterRequest;
+import cs.ku.sa_project.entities.Customer;
 import cs.ku.sa_project.entities.User;
+import cs.ku.sa_project.repositories.CustomerRepository;
 import cs.ku.sa_project.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,11 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
+
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
         Optional<User> user = userRepository.findByUsername(loginRequest.getUsername());
 
@@ -33,9 +37,11 @@ public class UserService {
 
         User userFound = user.get();
         String role = userFound.getRole();
+        Customer customer = customerRepository.findByUsername(userFound.getUsername());
+        String token = customer.getCustomerId().toString();
 
         if(passwordEncoder.matches(loginRequest.getPassword(), userFound.getPassword())){
-            return new LoginResponse(true, null, role);
+            return new LoginResponse(true, token, role);
         }else{
             return new LoginResponse(false, null, role);
         }
@@ -47,6 +53,16 @@ public class UserService {
             throw new RuntimeException("Username already taken");
         }
 
+        // Create Customer
+        Customer customer = new Customer();
+        customer.setUsername(registerRequest.getUsername());
+        customer.setEmail(registerRequest.getEmail());
+        customer.setFirstName(registerRequest.getFirstName());
+        customer.setLastName(registerRequest.getLastName());
+        customer.setPhoneNumber(registerRequest.getPhoneNumber());
+        customerRepository.save(customer);
+
+        // Create User
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));

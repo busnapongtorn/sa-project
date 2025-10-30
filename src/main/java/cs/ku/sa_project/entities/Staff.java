@@ -16,8 +16,6 @@ public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long staffId;
-    private String username;
-    private String password;
     private String role;
     private String email;
 

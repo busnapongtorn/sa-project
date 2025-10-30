@@ -19,6 +19,7 @@ public class Order {
     @Column(nullable = true)
     private String trackingNo;
     private String paymentStatus;
+    private Long customerId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
     private List<OrderItems> orderItems;
