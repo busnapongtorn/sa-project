@@ -34,7 +34,7 @@ public class UserService {
         User userFound = user.get();
         String role = userFound.getRole();
 
-        if(loginRequest.getPassword().equals(user.get().getPassword())) {
+        if(passwordEncoder.matches(loginRequest.getPassword(), userFound.getPassword())){
             return new LoginResponse(true, null, role);
         }else{
             return new LoginResponse(false, null, role);
