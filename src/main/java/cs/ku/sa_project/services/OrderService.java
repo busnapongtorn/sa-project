@@ -25,6 +25,10 @@ public class OrderService {
         return  orderRepository.findByOrderId(orderId);
     }
 
+    public List<Order> getOrdersByCustomerId(Long customerId) {
+        return orderRepository.findAllByCustomerId(customerId);
+    }
+
     public Order createOrder(Order order) {
         Order orderSaved = orderRepository.save(order);
         invoiceService.generateInvoice(orderSaved);

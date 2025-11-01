@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 
 @Data
@@ -28,7 +30,10 @@ public class Invoice {
 
     public Invoice(Order order){
         String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-        this.receiptNo = "";
+        String randomString = new Random().ints(10, 0, 10)
+                .mapToObj(Integer::toString)
+                .collect(Collectors.joining());
+        this.receiptNo = randomString;
         this.date = date;
         this.dueDate = "";
         this.paymentMethod = "";

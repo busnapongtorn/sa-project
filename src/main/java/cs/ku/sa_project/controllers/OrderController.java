@@ -43,9 +43,14 @@ public class OrderController {
         return orderService.getOrders();
     }
 
+//    @GetMapping("/orderId/")
+//    public Order getOrderFromId(@RequestParam("id") Long orderId) {
+//        return orderService.getOrderById(orderId);
+//    }
+
     @GetMapping("/orderId")
-    public Order getOrderFromId(@RequestParam("q") Long orderId) {
-        return orderService.getOrderById(orderId);
+    public List<Order> getOrdersFromCustomerId(@RequestParam("id") Long customerId) {
+        return orderService.getOrdersByCustomerId(customerId);
     }
 
     @PostMapping

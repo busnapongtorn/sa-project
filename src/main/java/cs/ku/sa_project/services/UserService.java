@@ -32,18 +32,18 @@ public class UserService {
 
         // User not found
         if (user.isEmpty()) {
-            return new LoginResponse(false, null, null);
+            return new LoginResponse(false, 0, null);
         }
 
         User userFound = user.get();
         String role = userFound.getRole();
         Customer customer = customerRepository.findByUsername(userFound.getUsername());
-        String token = customer.getCustomerId().toString();
+        Long customerId = customer.getCustomerId();
 
         if(passwordEncoder.matches(loginRequest.getPassword(), userFound.getPassword())){
-            return new LoginResponse(true, token, role);
+            return new LoginResponse(true, customerId, role);
         }else{
-            return new LoginResponse(false, null, role);
+            return new LoginResponse(false, 0, role);
         }
     }
 
