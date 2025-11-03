@@ -24,24 +24,20 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long invoiceId;
     private String receiptNo;
-    private String date;
-    private String dueDate;
+    private Instant date;
+    private Instant dueDate;
     private String status;
     private double totalAmount;
     private long orderId; //FK
 
     public Invoice(Order order, double totalAmount){
-//        String date = order.getOrderDate();
-//        Instant orderDate = Instant.parse(date);
+//      String date = order.getOrderDate();
+//      Instant orderDate = Instant.parse(date);
         Instant orderDate = order.getOrderDate();
         Instant dueDate = orderDate.plus(5, ChronoUnit.DAYS);
-        String dueDateString = dueDate.toString();
-//        String randomString = new Random().ints(10, 0, 10)
-//                .mapToObj(Integer::toString)
-//                .collect(Collectors.joining());
         this.receiptNo = "";
-        this.date = date;
-        this.dueDate = dueDateString;
+        this.date = orderDate;
+        this.dueDate = dueDate;
         this.status = "Unpaid";
         this.totalAmount = totalAmount;
         this.orderId = order.getOrderId();
