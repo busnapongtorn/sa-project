@@ -1,6 +1,7 @@
 package cs.ku.sa_project.controllers;
 
 import cs.ku.sa_project.dto.OrderItemDto;
+import cs.ku.sa_project.dto.OrderItemResponseDto;
 import cs.ku.sa_project.entities.Item;
 import cs.ku.sa_project.entities.Order;
 import cs.ku.sa_project.entities.OrderItems;
@@ -28,5 +29,15 @@ public class OrderItemsController {
     @PostMapping
     public List<OrderItems> createOrderItems(@RequestBody List<OrderItemDto> orderItemDtos) {
         return orderItemService.createOrderItems(orderItemDtos);
+    }
+
+    @GetMapping("/itemName/{orderId}")
+    public List<OrderItemResponseDto> getOrderItemsResponse(@PathVariable("orderId") Long orderId) {
+        return orderItemService.getOrderItemsResponse(orderId);
+    }
+
+    @GetMapping("/order/{orderId}")
+    public List<OrderItems> getOrderItems(@PathVariable("orderId") Long orderId) {
+        return orderItemService.getOrderItems(orderId);
     }
 }

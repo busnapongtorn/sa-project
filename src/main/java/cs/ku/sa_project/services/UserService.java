@@ -77,4 +77,11 @@ public class UserService {
     public boolean checkUsernameRepeat(String username){
         return userRepository.existsByUsername(username);
     }
+
+    public void updateUsername(String oldUsername, String newUsername) {
+        User user = userRepository.findByUsername(oldUsername)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        user.setUsername(newUsername);
+        userRepository.save(user);
+    }
 }

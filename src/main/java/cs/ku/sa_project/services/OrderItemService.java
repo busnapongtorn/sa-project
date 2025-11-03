@@ -1,6 +1,7 @@
 package cs.ku.sa_project.services;
 
 import cs.ku.sa_project.dto.OrderItemDto;
+import cs.ku.sa_project.dto.OrderItemResponseDto;
 import cs.ku.sa_project.entities.Item;
 import cs.ku.sa_project.entities.Order;
 import cs.ku.sa_project.entities.OrderItems;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderItemService {
@@ -56,5 +58,17 @@ public class OrderItemService {
         }
         invoiceService.generateInvoice(order, orderTotal);
         return orderItemRepository.saveAll(orderItems);
+    }
+
+    public List<OrderItems> getOrderItems(long orderId) {
+        return orderItemRepository.findAllByOrderId(orderId);
+    }
+
+    public List<OrderItemResponseDto> getOrderItemsResponse(long orderId) {
+        List<OrderItems> orderItems = orderItemRepository.findByOrderIdWithItem(orderId);
+
+        return orderItems.stream()
+                .map(OrderItemResponseDto::new)
+                .collect(Collectors.toList());
     }
 }

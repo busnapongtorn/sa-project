@@ -23,4 +23,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Long sumReservedQuantity();
     @Query("SELECT SUM(i.stockQuantity) FROM Item i")
     Long sumStockQuantity();
+    List<Item> findAllByStatusOrderByItemIdAsc(String status);
 }

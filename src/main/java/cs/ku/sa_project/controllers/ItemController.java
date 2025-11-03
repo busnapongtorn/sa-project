@@ -34,6 +34,11 @@ public class ItemController {
         return itemService.getItems();
     }
 
+    @GetMapping("/available")
+    public List<Item> getItemsAvailable(){
+        return itemService.getItemsAvailable();
+    }
+
     @PutMapping("/{itemId}") // Handles PUT requests like /api/items/123
     public ResponseEntity<Item> updateItem(
             @PathVariable Long itemId,       // Gets the ID (123) from the URL path

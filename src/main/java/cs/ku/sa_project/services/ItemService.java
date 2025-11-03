@@ -39,6 +39,10 @@ public class ItemService {
         return itemRepository.findAllByOrderByItemIdAsc(); // Use built-in JpaRepository method
     }
 
+    public List<Item> getItemsAvailable() {
+        return itemRepository.findAllByStatusOrderByItemIdAsc("AVAILABLE"); // Use built-in JpaRepository method
+    }
+
     public Item updateItem(Long itemId, Item updatedItemData) {
         // Find the existing item or throw an error if not found
         Item item = itemRepository.findById(itemId)

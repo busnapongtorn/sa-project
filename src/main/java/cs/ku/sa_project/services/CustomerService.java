@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private UserService userService;
 
     public Customer getCustomerById(Long customerId){
         return customerRepository.findById(customerId)
@@ -20,11 +22,14 @@ public class CustomerService {
 
     public Customer updateCustomer(Long customerId, ProfileUpdate profileUpdate){
         Customer customer = getCustomerById(customerId);
+        String oldUsername = customer.getUsername();
         customer.setUsername(profileUpdate.getUsername());
         customer.setEmail(profileUpdate.getEmail());
         customer.setFirstName(profileUpdate.getFirstName());
         customer.setLastName(profileUpdate.getLastName());
         customer.setPhoneNumber(profileUpdate.getPhoneNumber());
+        // Update username in user table
+        userService.updateUsername(oldUsername, profileUpdate.getUsername());
         return customerRepository.save(customer);
     }
 }
