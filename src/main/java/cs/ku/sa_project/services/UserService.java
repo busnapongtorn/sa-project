@@ -37,11 +37,15 @@ public class UserService {
 
         User userFound = user.get();
         String role = userFound.getRole();
-        Customer customer = customerRepository.findByUsername(userFound.getUsername());
-        Long customerId = customer.getCustomerId();
 
         if(passwordEncoder.matches(loginRequest.getPassword(), userFound.getPassword())){
-            return new LoginResponse(true, customerId, role);
+            if(role.equals("Staff")){
+                return new LoginResponse(true,0, role);
+            }else{
+                Customer customer = customerRepository.findByUsername(userFound.getUsername());
+                Long customerId = customer.getCustomerId();
+                return new LoginResponse(true, customerId, role);
+            }
         }else{
             return new LoginResponse(false, 0, role);
         }
@@ -68,5 +72,9 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setRole("Customer");
         return userRepository.save(user);
+    }
+
+    public boolean checkUsernameRepeat(String username){
+        return userRepository.existsByUsername(username);
     }
 }

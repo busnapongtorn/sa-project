@@ -1,8 +1,11 @@
 package cs.ku.sa_project.services;
 
+import cs.ku.sa_project.dto.StockDataDto;
 import cs.ku.sa_project.entities.Item;
+import cs.ku.sa_project.entities.Order;
 import cs.ku.sa_project.entities.OrderItems;
 import cs.ku.sa_project.repositories.ItemRepository;
+import cs.ku.sa_project.repositories.OrderItemRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,8 @@ public class ItemService {
 
     @Autowired // <-- Asks Spring to inject the database repository
     private ItemRepository itemRepository;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     public List<Item> searchItems(String query) {
         if (query == null || query.trim().isEmpty()) {
@@ -55,8 +60,26 @@ public class ItemService {
         itemRepository.save(item);
     }
 
-    public Item deductStock(Item item, OrderItems orderItem) {
-        item.setStockQuantity(item.getStockQuantity() - orderItem.getQuantity());
-        return itemRepository.save(item);
+    public void deductStock(Long orderId) {
+        List<OrderItems> orderItemsList = orderItemRepository.findAllByOrderId(orderId);
+        for(OrderItems orderItems : orderItemsList) {
+            Item item = orderItems.getItem();
+            item.setStockQuantity(item.getStockQuantity() - orderItems.getQuantity());
+            item.setReservedQuantity(item.getReservedQuantity() - orderItems.getQuantity());
+            itemRepository.save(item);
+        }
+    }
+
+    public StockDataDto getStockData(){
+        int total = (int) itemRepository.count();
+        int available = itemRepository.countByStatus("AVAILABLE");
+        int discontinued = itemRepository.countByStatus("DISCONTINUED");
+        Long reservedSum = itemRepository.sumReservedQuantity();
+        Long stockSum = itemRepository.sumStockQuantity();
+
+        int reservedSumInt = (reservedSum != null) ? reservedSum.intValue() : 0;
+        int stockSumInt = (stockSum != null) ? stockSum.intValue() : 0;
+
+        return new StockDataDto(total, available, discontinued, reservedSumInt, stockSumInt);
     }
 }

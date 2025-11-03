@@ -1,13 +1,16 @@
 package cs.ku.sa_project.controllers;
+import cs.ku.sa_project.dto.SalesDataDto;
 import cs.ku.sa_project.entities.CartList;
 import cs.ku.sa_project.entities.Customer;
 import cs.ku.sa_project.entities.Item;
 import cs.ku.sa_project.entities.Order;
 import cs.ku.sa_project.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -84,6 +87,15 @@ public class OrderController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/salesReport")
+    public ResponseEntity<SalesDataDto> getSalesData(
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ){
+        SalesDataDto salesDataDto = orderService.getSalesData(startDate, endDate);
+        return ResponseEntity.ok(salesDataDto);
     }
 
 }

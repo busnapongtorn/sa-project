@@ -1,10 +1,13 @@
 package cs.ku.sa_project.entities;
+import ch.qos.logback.core.status.InfoStatus;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -17,7 +20,7 @@ public class Order {
     private Long orderId;
     private String status;
     private String address;
-    private String orderDate;
+    private Instant orderDate;
     @Column(nullable = true)
     private String trackingNo;
     private Long customerId;

@@ -1,4 +1,5 @@
 package cs.ku.sa_project.controllers;
+import cs.ku.sa_project.dto.StockDataDto;
 import cs.ku.sa_project.entities.CartList;
 import cs.ku.sa_project.entities.Item;
 import cs.ku.sa_project.repositories.ItemRepository;
@@ -46,6 +47,12 @@ public class ItemController {
             // Return 404 Not Found if the service threw an error (e.g., item not found)
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/stockReport")
+    public ResponseEntity<StockDataDto> getStockData(){
+        StockDataDto stockDataDto = itemService.getStockData();
+        return ResponseEntity.ok(stockDataDto);
     }
 
     // public void displayPopup(Item item){}

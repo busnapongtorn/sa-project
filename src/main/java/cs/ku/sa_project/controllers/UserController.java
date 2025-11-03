@@ -30,4 +30,10 @@ public class UserController {
     public User register(@RequestBody RegisterRequest registerRequest) {
        return userService.register(registerRequest);
     }
+
+    @GetMapping("/check-username")
+    public boolean checkUsername(@RequestParam("username") String username) {
+        // true = repeats, no = not
+        return userService.checkUsernameRepeat(username);
+    }
 }
