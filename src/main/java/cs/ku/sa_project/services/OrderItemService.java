@@ -65,7 +65,7 @@ public class OrderItemService {
                     .append(" THB").append("\n");
         }
         Invoice invoice = invoiceService.generateInvoice(order, orderTotal);
-        emailBody.append("Total : ").append(orderTotal).append(" THB\n").append("Please pay before ").append(invoice.getDueDate()).append("\n");
+        emailBody.append("Total : ").append(orderTotal).append(" THB\n").append("Please pay before ").append(invoice.getDueDateThai()).append("\n");
         // Send mail
         Customer customer = customerService.getCustomerById(order.getCustomerId());
         emailSenderService.sendEmail(customer.getEmail(), "New Invoice from Foam Groupnine Store", emailBody.toString());

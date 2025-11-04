@@ -43,4 +43,20 @@ public class InvoiceController {
         Invoice invoice = invoiceService.getInvoiceByOrderId(orderId);
         return ResponseEntity.ok(invoice.getTotalAmount());
     }
+
+    @GetMapping("/receiptNo/{orderId}")
+    public ResponseEntity<String> getReceiptNoByOrderId(@PathVariable Long orderId){
+        Invoice invoice = invoiceService.getInvoiceByOrderId(orderId);
+        return ResponseEntity.ok(invoice.getReceiptNo());
+    }
+
+    @PatchMapping("/unpaid/{orderId}")
+    public ResponseEntity<Order> onInvoiceUnpaid(
+            @PathVariable Long orderId,
+            @RequestBody Map<String, Object> body
+    ){
+        Long customerId = ((Number) body.get("customerId")).longValue();
+        Order order = invoiceService.unpaidInvoice(orderId, customerId);
+        return ResponseEntity.ok(order);
+    }
 }

@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
@@ -43,4 +45,10 @@ public class Invoice {
         this.orderId = order.getOrderId();
     }
 
+    public String getDueDateThai(){
+        ZoneId bangkokZone = ZoneId.of("Asia/Bangkok");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
+                .withZone(bangkokZone);
+        return formatter.format(dueDate);
+    }
 }
