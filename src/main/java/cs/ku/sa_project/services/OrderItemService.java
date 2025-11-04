@@ -2,13 +2,12 @@ package cs.ku.sa_project.services;
 
 import cs.ku.sa_project.dto.OrderItemDto;
 import cs.ku.sa_project.dto.OrderItemResponseDto;
-import cs.ku.sa_project.entities.Item;
-import cs.ku.sa_project.entities.Order;
-import cs.ku.sa_project.entities.OrderItems;
+import cs.ku.sa_project.entities.*;
 import cs.ku.sa_project.repositories.ItemRepository;
 import cs.ku.sa_project.repositories.OrderItemRepository;
 import cs.ku.sa_project.repositories.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -30,6 +29,11 @@ public class OrderItemService {
     @Autowired
     @Lazy
     private InvoiceService invoiceService;
+    @Autowired
+    private EmailSenderService emailSenderService;
+    @Autowired
+    private CustomerService customerService;
+    StringBuilder emailBody = new StringBuilder().append("Order Items List : \n");
 
     public List<OrderItems> getOrderItems() {
         return orderItemRepository.findAll(); // Use built-in JpaRepository method
@@ -55,8 +59,16 @@ public class OrderItemService {
             orderTotal += orderItem.getTotalPrice(); // get data for invoice generation
             // Reserve Items
             itemService.reserveItems(item, orderItem);
+            // Append email body
+            emailBody.append(orderItem.getQuantity()).append(" ").append(item.getItemName()).append(" : ")
+                    .append(item.getCurrentPrice()).append(" * ").append(orderItem.getQuantity()).append(" = ").append(orderItem.getTotalPrice())
+                    .append(" THB").append("\n");
         }
-        invoiceService.generateInvoice(order, orderTotal);
+        Invoice invoice = invoiceService.generateInvoice(order, orderTotal);
+        emailBody.append("Total : ").append(orderTotal).append(" THB\n").append("Please pay before ").append(invoice.getDueDate()).append("\n");
+        // Send mail
+        Customer customer = customerService.getCustomerById(order.getCustomerId());
+        emailSenderService.sendEmail(customer.getEmail(), "New Invoice from Foam Groupnine Store", emailBody.toString());
         return orderItemRepository.saveAll(orderItems);
     }
 
